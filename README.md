@@ -24,7 +24,8 @@ Many online resume builders are cluttered, not mobile-friendly, and lack accessi
 3. Download the resume as a PDF.
 
 ## Screenshots
-*(Add screenshots here)*
+![My Image](./resources/Frontpage.jpg)
+
 
 ## Accessibility Considerations
 - **Keyboard Navigation**: Users can navigate using the keyboard.
