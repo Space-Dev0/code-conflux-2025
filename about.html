@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1B222C, #3A6073);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+
+        .team-section {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .team-member h2 {
+            font-size: 1.5rem;
+            margin: 15px 0 10px;
+            color: #1B222C;
+        }
+
+        .team-member p {
+            font-size: 1rem;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .team-member a {
+            color: #3A6073;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .team-member a:hover {
+            color: #1B222C;
+        }
+
+        .footer {
+            background: #1B222C;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        .footer a {
+            color: #3A6073;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #f4a261;
+        }
+
+        @media (max-width: 768px) {
+            .team-member {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>About Us</h1>
+        <p>Meet the team behind this project.</p>
+    </div>
+
+    <div class="team-section">
+        <!-- Team Member 1 -->
+        <div class="team-member">
+            <h2>Prathamesh Torse</h2>
+            <p>📞 <a href="tel:+918983010805">+91 8983010805</a></p>
+            <p>✉️ <a href="mailto:cs24b1046@iiitr.ac.in">cs24b1046@iiitr.ac.in</a></p>
+        </div>
+
+        <!-- Team Member 2 -->
+        <div class="team-member">
+            <h2>Kanishk Mittal</h2>
+            <p>📞 <a href="tel:+918955927454">+91 8955927454</a></p>
+            <p>✉️ <a href="mailto:cs24b1017@iiitr.ac.in">cs24b1017@iiitr.ac.in</a></p>
+        </div>
+
+        <!-- Team Member 3 -->
+        <div class="team-member">
+            <h2>Lakshya Sharma</h2>
+            <p>📞 <a href="tel:+919260914326">+91 9260914326</a></p>
+            <p>✉️ <a href="mailto:ad24b1038@iiitr.ac.in">ad24b1038@iiitr.ac.in</a></p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2023 Resume Builder. All rights reserved.</p>
+        <p>Made with ❤️ by <a href="#">Our Team</a></p>
+    </div>
+</body>
+</html>
