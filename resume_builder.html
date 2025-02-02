@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Resume Builder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            display: flex;
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container, .preview-container {
+            flex: 1;
+            padding: 20px;
+        }
+        .preview-container {
+            border-left: 2px solid #ccc;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Accessible Resume Builder</h1>
+            <form id="resumeForm">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phone" required>
+                
+                <label for="summary">Summary:</label>
+                <textarea id="summary" name="summary"></textarea>
+                
+                <label for="experience">Work Experience:</label>
+                <textarea id="experience" name="experience"></textarea>
+                
+                <label for="education">Education:</label>
+                <textarea id="education" name="education"></textarea>
+                
+                <label for="skills">Skills:</label>
+                <textarea id="skills" name="skills"></textarea>
+            </form>
+        </div>
+        <div class="preview-container" id="resumePreview" aria-live="polite">
+            <h2>Live Preview</h2>
+            <div class="resume" id="resumeOutput"></div>
+            <button id="downloadPDF">Download as PDF</button>
+        </div>
+    </div>
+    
+    <script>
+        function updatePreview() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const summary = document.getElementById('summary').value;
+            const experience = document.getElementById('experience').value;
+            const education = document.getElementById('education').value;
+            const skills = document.getElementById('skills').value;
+
+            const resumeHTML = `
+                <h2>${name}</h2>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Phone:</strong> ${phone}</p>
+                <p><strong>Summary:</strong> ${summary}</p>
+                <p><strong>Experience:</strong> ${experience}</p>
+                <p><strong>Education:</strong> ${education}</p>
+                <p><strong>Skills:</strong> ${skills}</p>
+            `;
+
+            document.getElementById('resumeOutput').innerHTML = resumeHTML;
+        }
+
+        document.querySelectorAll('#resumeForm input, #resumeForm textarea').forEach(element => {
+            element.addEventListener('input', updatePreview);
+        });
+    </script>
+</body>
+</html>
