@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Resume Builder</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./resources/favicon.png"> 
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Global Styles */
         :root {
             --primary-color: #1B222C;
             --secondary-color: #28a745;
@@ -28,7 +30,6 @@
             color: var(--text-color);
         }
 
-        /* Header Styles */
         .header {
             display: flex;
             justify-content: space-between;
@@ -56,11 +57,6 @@
             display: flex;
             align-items: center;
             gap: 30px;
-        }
-
-        .nav {
-            display: flex;
-            gap: 20px;
         }
 
         .nav a {
@@ -110,29 +106,28 @@
             box-shadow: var(--shadow);
         }
 
-        /* Container Styles */
         .container {
             display: flex;
             max-width: 1200px;
-            margin: 40px auto;
+            margin: 0 auto;
             background: #fff;
             box-shadow: var(--shadow);
         }
 
-        .left-panel {
-            width: 50%;
+        .left-panel, .right-panel {
+            flex: 1;
             padding: 20px;
+            overflow-y: auto;
+            height: calc(100vh - 60px);
+        }
+
+        .left-panel {
             border-right: 1px solid #ccc;
         }
 
-        .right-panel {
-            width: 50%;
-            padding: 20px;
-        }
-
-        h1,
-        h2 {
+        h1, h2, h3 {
             color: var(--text-color);
+            margin-top: 0;
         }
 
         .contact {
@@ -146,29 +141,20 @@
             color: #0073b1;
         }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 5px;
-        }
-
         .section {
             margin-bottom: 20px;
         }
 
-        input,
-        textarea {
+        input, textarea {
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            font-size: 14px;
         }
 
-        .download-btn {
+        .download-btn, .add-btn {
             padding: 10px 20px;
             background-color: var(--primary-color);
             color: white;
@@ -179,41 +165,25 @@
             transition: var(--transition);
         }
 
-        .download-btn:hover {
+        .download-btn:hover, .add-btn:hover {
             background-color: var(--hover-color);
         }
 
-        /* Responsive Design */
+        .add-btn {
+            background-color: var(--secondary-color);
+            padding: 5px 10px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
         @media (max-width: 768px) {
-            .header {
-                padding: 10px;
-            }
-
-            .left-section {
-                gap: 15px;
-            }
-
-            .nav {
-                gap: 10px;
-            }
-
-            .nav a {
-                font-size: 16px;
-            }
-
-            .new-button {
-                padding: 6px 12px;
-                font-size: 14px;
-            }
-
             .container {
                 flex-direction: column;
             }
 
-            .left-panel,
-            .right-panel {
+            .left-panel, .right-panel {
                 width: 100%;
-                border-right: none;
+                height: auto;
             }
         }
     </style>
@@ -251,14 +221,12 @@
             <textarea id="coursework" placeholder="Enter relevant coursework" oninput="updatePreview()"></textarea>
 
             <h3>Experience</h3>
-            <input type="text" id="company" placeholder="Company Name" oninput="updatePreview()">
-            <input type="text" id="jobTitle" placeholder="Job Title" oninput="updatePreview()">
-            <input type="text" id="jobDates" placeholder="Employment Dates" oninput="updatePreview()">
-            <textarea id="jobDescription" placeholder="Job Description" oninput="updatePreview()"></textarea>
+            <div id="experienceContainer"></div>
+            <button class="add-btn" onclick="addExperience()">+ Add Experience</button>
 
             <h3>Projects</h3>
-            <input type="text" id="projectTitle" placeholder="Project Title" oninput="updatePreview()">
-            <textarea id="projectDescription" placeholder="Project Description" oninput="updatePreview()"></textarea>
+            <div id="projectContainer"></div>
+            <button class="add-btn" onclick="addProject()">+ Add Project</button>
 
             <h3>Technical Skills</h3>
             <textarea id="skills" placeholder="Enter your technical skills" oninput="updatePreview()"></textarea>
@@ -273,7 +241,7 @@
             <div class="contact">
                 <h1 id="previewName">Your Name</h1>
                 <p id="previewAddress">Your Address</p>
-                <p>📞 <span id="previewPhone">Your Phone</span> | ✉️ <a id="previewEmail"
+                <p>📞 <span id="previewPhone">Your Phone</span> | ✉ <a id="previewEmail"
                         href="mailto:email@example.com">Your Email</a></p>
                 <p>
                     <a id="previewLinkedIn" href="#">LinkedIn</a> |
@@ -295,16 +263,12 @@
 
             <div class="section">
                 <h2>Experience</h2>
-                <p><strong id="previewCompany">Company Name</strong> (<span id="previewJobDates">Employment
-                        Dates</span>)</p>
-                <p id="previewJobTitle">Job Title</p>
-                <p id="previewJobDescription">Job description will appear here</p>
+                <div id="previewExperience"></div>
             </div>
 
             <div class="section">
                 <h2>Projects</h2>
-                <p><strong id="previewProjectTitle">Project Title</strong></p>
-                <p id="previewProjectDescription">Project description will appear here</p>
+                <div id="previewProjects"></div>
             </div>
 
             <div class="section">
@@ -320,6 +284,13 @@
     </div>
 
     <script>
+        function confirmRefresh() {
+            const isConfirmed = confirm("Are you sure you want to start a new resume? All unsaved changes will be lost.");
+            if (isConfirmed) {
+                window.location.reload();
+            }
+        }
+
         function updatePreview() {
             document.getElementById("previewName").innerText = document.getElementById("name").value || "Your Name";
             document.getElementById("previewAddress").innerText = document.getElementById("address").value || "Your Address";
@@ -335,66 +306,116 @@
 
             document.getElementById("previewCoursework").innerText = document.getElementById("coursework").value || "Your coursework will appear here";
 
-            document.getElementById("previewCompany").innerText = document.getElementById("company").value || "Company Name";
-            document.getElementById("previewJobDates").innerText = document.getElementById("jobDates").value || "Employment Dates";
-            document.getElementById("previewJobTitle").innerText = document.getElementById("jobTitle").value || "Job Title";
-            document.getElementById("previewJobDescription").innerText = document.getElementById("jobDescription").value || "Job description will appear here";
-
-            document.getElementById("previewProjectTitle").innerText = document.getElementById("projectTitle").value || "Project Title";
-            document.getElementById("previewProjectDescription").innerText = document.getElementById("projectDescription").value || "Project description will appear here";
-
             document.getElementById("previewSkills").innerText = document.getElementById("skills").value || "Your skills will appear here";
 
             document.getElementById("previewLeadership").innerText = document.getElementById("leadership").value || "Your leadership experiences will appear here";
+
+            updateExperiencePreview();
+            updateProjectPreview();
         }
 
-        function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+        function addExperience() {
+            const container = document.getElementById("experienceContainer");
+            const index = container.children.length;
+            const experienceHtml = `
+                <div class="experience-item">
+                    <input type="text" id="company${index}" placeholder="Company Name" oninput="updateExperiencePreview()">
+                    <input type="text" id="jobTitle${index}" placeholder="Job Title" oninput="updateExperiencePreview()">
+                    <input type="text" id="jobDates${index}" placeholder="Employment Dates" oninput="updateExperiencePreview()">
+                    <textarea id="jobDescription${index}" placeholder="Job Description" oninput="updateExperiencePreview()"></textarea>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', experienceHtml);
+            updateExperiencePreview();
+        }
 
-            html2canvas(document.getElementById("resumePreview"), { scale: 2 }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const imgWidth = 210; // A4 width in mm
-                const pageHeight = 297; // A4 height in mm
-                const imgHeight = canvas.height * imgWidth / canvas.width;
+        function updateExperiencePreview() {
+            const previewContainer = document.getElementById("previewExperience");
+            previewContainer.innerHTML = "";
+            const experiences = document.querySelectorAll(".experience-item");
+            experiences.forEach((exp, index) => {
+                const company = document.getElementById(`company${index}`).value || "Company Name";
+                const jobTitle = document.getElementById(`jobTitle${index}`).value || "Job Title";
+                const jobDates = document.getElementById(`jobDates${index}`).value || "Employment Dates";
+                const jobDescription = document.getElementById(`jobDescription${index}`).value || "Job description will appear here";
 
-                let yPosition = 0; // Position on the PDF
-
-                // Add the first page
-                doc.addImage(imgData, 'PNG', 0, yPosition, imgWidth, imgHeight);
-
-                // If the content is taller than one page, add extra pages
-                while (yPosition + pageHeight < imgHeight) {
-                    yPosition += pageHeight;
-                    doc.addPage();
-                    doc.addImage(imgData, 'PNG', 0, -yPosition, imgWidth, imgHeight);
-                }
-
-                doc.save("resume.pdf");
+                const experienceHtml = `
+                    <div class="experience-preview">
+                        <p><strong>${company}</strong> (${jobDates})</p>
+                        <p>${jobTitle}</p>
+                        <p>${jobDescription}</p>
+                    </div>
+                `;
+                previewContainer.insertAdjacentHTML('beforeend', experienceHtml);
             });
         }
 
-        // Resizable Panel Logic
-        const resizer = document.getElementById("resizer");
-        const leftPanel = document.getElementById("leftPanel");
-        let isResizing = false;
-
-        resizer.addEventListener("mousedown", (e) => {
-            isResizing = true;
-            document.addEventListener("mousemove", resize);
-            document.addEventListener("mouseup", () => isResizing = false);
-        });
-
-        function resize(e) {
-            if (isResizing) {
-                leftPanel.style.width = e.clientX + "px";
-            }
+        function addProject() {
+            const container = document.getElementById("projectContainer");
+            const index = container.children.length;
+            const projectHtml = `
+                <div class="project-item">
+                    <input type="text" id="projectTitle${index}" placeholder="Project Title" oninput="updateProjectPreview()">
+                    <textarea id="projectDescription${index}" placeholder="Project Description" oninput="updateProjectPreview()"></textarea>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', projectHtml);
+            updateProjectPreview();
         }
+
+        function updateProjectPreview() {
+            const previewContainer = document.getElementById("previewProjects");
+            previewContainer.innerHTML = "";
+            const projects = document.querySelectorAll(".project-item");
+            projects.forEach((proj, index) => {
+                const title = document.getElementById(`projectTitle${index}`).value || "Project Title";
+                const description = document.getElementById(`projectDescription${index}`).value || "Project description will appear here";
+
+                const projectHtml = `
+                    <div class="project-preview">
+                        <p><strong>${title}</strong></p>
+                        <p>${description}</p>
+                    </div>
+                `;
+                previewContainer.insertAdjacentHTML('beforeend', projectHtml);
+            });
+        }
+
+        function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    html2canvas(document.getElementById("resumePreview"), { scale: 2 }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = 210; // A4 width in mm
+        const pageHeight = 297; // A4 height in mm
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        
+        let yPosition = 0; // Position on the PDF
+
+        // Add the first page
+        doc.addImage(imgData, 'PNG', 0, yPosition, imgWidth, imgHeight);
+
+        // If the content is taller than one page, add extra pages
+        while (yPosition + pageHeight < imgHeight) {
+            yPosition += pageHeight;
+            doc.addPage();
+            doc.addImage(imgData, 'PNG', 0, -yPosition, imgWidth, imgHeight);
+        }
+
+        doc.save("resume.pdf");
+    });
+}
 
         // Automatically update preview when any input is changed
         document.querySelectorAll("input, textarea").forEach(input => {
             input.addEventListener("input", updatePreview);
         });
+        
+
+        // Initialize with one experience and one project
+        addExperience();
+        addProject();
     </script>
 </body>
 
