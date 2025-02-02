@@ -379,30 +379,36 @@
         }
 
         function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-            html2canvas(document.getElementById("resumePreview"), { scale: 2 }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const imgWidth = 210; // A4 width in mm
-                const pageHeight = 297; // A4 height in mm
-                const imgHeight = canvas.height * imgWidth / canvas.width;
+    html2canvas(document.getElementById("resumePreview"), { scale: 2 }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = 210; // A4 width in mm
+        const pageHeight = 297; // A4 height in mm
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        
+        let yPosition = 0; // Position on the PDF
 
-                let yPosition = 0; // Position on the PDF
+        // Add the first page
+        doc.addImage(imgData, 'PNG', 0, yPosition, imgWidth, imgHeight);
 
-                // Add the first page
-                doc.addImage(imgData, 'PNG', 0, yPosition, imgWidth, imgHeight);
-
-                // If the content is taller than one page, add extra pages
-                while (yPosition + pageHeight < imgHeight) {
-                    yPosition += pageHeight;
-                    doc.addPage();
-                    doc.addImage(imgData, 'PNG', 0, -yPosition, imgWidth, imgHeight);
-                }
-
-                doc.save("resume.pdf");
-            });
+        // If the content is taller than one page, add extra pages
+        while (yPosition + pageHeight < imgHeight) {
+            yPosition += pageHeight;
+            doc.addPage();
+            doc.addImage(imgData, 'PNG', 0, -yPosition, imgWidth, imgHeight);
         }
+
+        doc.save("resume.pdf");
+    });
+}
+
+        // Automatically update preview when any input is changed
+        document.querySelectorAll("input, textarea").forEach(input => {
+            input.addEventListener("input", updatePreview);
+        });
+        
 
         // Initialize with one experience and one project
         addExperience();

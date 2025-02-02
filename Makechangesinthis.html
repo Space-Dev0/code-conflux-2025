@@ -374,6 +374,23 @@
             });
         }
 
+        // Resizable Panel Logic
+        const resizer = document.getElementById("resizer");
+        const leftPanel = document.getElementById("leftPanel");
+        let isResizing = false;
+
+        resizer.addEventListener("mousedown", (e) => {
+            isResizing = true;
+            document.addEventListener("mousemove", resize);
+            document.addEventListener("mouseup", () => isResizing = false);
+        });
+
+        function resize(e) {
+            if (isResizing) {
+                leftPanel.style.width = e.clientX + "px";
+            }
+        }
+
         // Automatically update preview when any input is changed
         document.querySelectorAll("input, textarea").forEach(input => {
             input.addEventListener("input", updatePreview);
