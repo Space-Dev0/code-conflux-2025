@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Resume Builder</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        .left-panel {
+            width: 40%;
+            padding: 20px;
+            background: #f0f0f0;
+            border-right: 2px solid #ccc;
+            overflow: auto;
+        }
+        .resizer {
+            width: 5px;
+            cursor: ew-resize;
+            background: #666;
+        }
+        .right-panel {
+            flex-grow: 1;
+            padding: 20px;
+            background: #ffffff;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+        }
+        .download-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center; padding: 10px;">Resume Builder</h2>
+    <div class="container">
+        <!-- Left Panel: Form -->
+        <div class="left-panel" id="leftPanel">
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter your name" oninput="updatePreview()">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Enter your email" oninput="updatePreview()">
+
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" placeholder="Enter your phone number" oninput="updatePreview()">
+
+            <label for="address">Address:</label>
+            <textarea id="address" placeholder="Enter your address" oninput="updatePreview()"></textarea>
+
+            <button class="download-btn" onclick="downloadPDF()">Download as PDF</button>
+        </div>
+
+        <!-- Resizable Divider -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Right Panel: Live Preview -->
+        <div class="right-panel" id="resumePreview">
+            <h2 id="previewName">Your Name</h2>
+            <p id="previewEmail">your.email@example.com</p>
+            <p id="previewPhone">+1234567890</p>
+            <p id="previewAddress">Your Address</p>
+        </div>
+    </div>
+
+    <script>
+        function updatePreview() {
+            document.getElementById("previewName").innerText = document.getElementById("name").value || "Your Name";
+            document.getElementById("previewEmail").innerText = document.getElementById("email").value || "your.email@example.com";
+            document.getElementById("previewPhone").innerText = document.getElementById("phone").value || "+1234567890";
+            document.getElementById("previewAddress").innerText = document.getElementById("address").value || "Your Address";
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.text(document.getElementById("previewName").innerText, 20, 20);
+            doc.text(document.getElementById("previewEmail").innerText, 20, 30);
+            doc.text(document.getElementById("previewPhone").innerText, 20, 40);
+            doc.text(document.getElementById("previewAddress").innerText, 20, 50);
+            doc.save("resume.pdf");
+        }
+
+        // Resizable Panel Logic
+        const resizer = document.getElementById("resizer");
+        const leftPanel = document.getElementById("leftPanel");
+        let isResizing = false;
+
+        resizer.addEventListener("mousedown", (e) => {
+            isResizing = true;
+            document.addEventListener("mousemove", resize);
+            document.addEventListener("mouseup", () => isResizing = false);
+        });
+
+        function resize(e) {
+            if (isResizing) {
+                leftPanel.style.width = e.clientX + "px";
+            }
+        }
+    </script>
+</body>
+</html>
