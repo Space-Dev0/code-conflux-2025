@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Resume Builder</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script defer src="script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,41 +21,65 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
+            padding: 5px 20px;
             background: #1B222C;
             color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: bold;
+            height: 40px;
+            width: auto;
+        }
+
+        .left-section {
+            display: flex;
+            align-items: center;
+            gap: 30px;
         }
 
         .nav {
             display: flex;
-            gap: 20px;
+            gap: 12px;
         }
 
         .nav a {
             color: white;
             text-decoration: none;
             font-size: 18px;
-            transition: color 0.3s;
         }
 
         .nav a:hover {
-            color: #f4a261;
+            text-decoration: underline;
         }
+
+        .new-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .new-button:hover {
+            background-color: #218838;
+        }
+
 
         .container {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            height: calc(100vh - 80px); /* Adjusted for header */
+            height: calc(100vh - 80px);
+            /* Adjusted for header */
             padding: 20px;
             gap: 20px;
-            flex-wrap: wrap; /* Allows wrapping on small screens */
+            flex-wrap: wrap;
+            /* Allows wrapping on small screens */
         }
 
         .left-panel {
@@ -72,7 +99,8 @@
             margin-bottom: 5px;
         }
 
-        input, textarea {
+        input,
+        textarea {
             width: 100%;
             padding: 12px;
             font-size: 16px;
@@ -83,7 +111,8 @@
             transition: border-color 0.3s;
         }
 
-        input:focus, textarea:focus {
+        input:focus,
+        textarea:focus {
             border-color: #f4a261;
             outline: none;
         }
@@ -163,13 +192,17 @@
                 display: none;
             }
 
-            input, textarea {
-                font-size: 14px; /* Adjust text size for small screens */
-                padding: 10px; /* Adjust padding for small screens */
+            input,
+            textarea {
+                font-size: 14px;
+                /* Adjust text size for small screens */
+                padding: 10px;
+                /* Adjust padding for small screens */
             }
 
             .download-btn {
-                width: 100%; /* Full width button */
+                width: 100%;
+                /* Full width button */
             }
 
             .nav {
@@ -184,61 +217,65 @@
         }
     </style>
 </head>
+
 <body>
     <header class="header">
-        <div class="logo">Resume Builder</div>
+        <div class="left-section">
+            <img class="logo" src="./resources/logo.png" alt="logo">
+            <button class="new-button" onclick="confirmRefresh()">
+                <i class="fas fa-plus"></i> New
+            </button>
+        </div>
         <nav class="nav">
-            <a href="#features">Features</a>
-            <a href="#templates">Templates</a>
-            <a href="#contact">Contact</a>
+            <a href="./about.html">About</a>
         </nav>
     </header>
-    
+
     <div class="container">
         <!-- Left Panel: Form -->
         <div class="left-panel" id="leftPanel">
             <label for="name">Name:</label>
             <input type="text" id="name" placeholder="Enter your name" oninput="updatePreview()">
-            
+
             <label for="universityName">University:</label>
             <input type="text" id="universityName" placeholder="Enter your university name" oninput="updatePreview()">
-            
+
             <label for="degree">Degree:</label>
             <input type="text" id="degree" placeholder="Enter your degree" oninput="updatePreview()">
-            
+
             <label for="eduStartDate">Education Start Date:</label>
             <input type="text" id="eduStartDate" placeholder="Start Date" oninput="updatePreview()">
-            
+
             <label for="eduEndDate">Education End Date:</label>
             <input type="text" id="eduEndDate" placeholder="End Date" oninput="updatePreview()">
-            
+
             <label for="eduLocation">Location:</label>
             <input type="text" id="eduLocation" placeholder="Location" oninput="updatePreview()">
 
             <label for="companyName">Company Name:</label>
             <input type="text" id="companyName" placeholder="Enter company name" oninput="updatePreview()">
-            
+
             <label for="position">Position:</label>
             <input type="text" id="position" placeholder="Enter your position" oninput="updatePreview()">
-            
+
             <label for="expStartDate">Experience Start Date:</label>
             <input type="text" id="expStartDate" placeholder="Start Date" oninput="updatePreview()">
-            
+
             <label for="expEndDate">Experience End Date:</label>
             <input type="text" id="expEndDate" placeholder="End Date" oninput="updatePreview()">
-            
+
             <label for="expLocation">Location:</label>
             <input type="text" id="expLocation" placeholder="Location" oninput="updatePreview()">
 
             <label for="expDescription">Experience Description:</label>
             <textarea id="expDescription" placeholder="Describe your experience" oninput="updatePreview()"></textarea>
-            
+
             <label for="languages">Languages:</label>
             <input type="text" id="languages" placeholder="Enter languages" oninput="updatePreview()">
-            
+
             <label for="tools">Tools:</label>
             <input type="text" id="tools" placeholder="Enter tools" oninput="updatePreview()">
-            
+
             <label for="frameworks">Frameworks:</label>
             <input type="text" id="frameworks" placeholder="Enter frameworks" oninput="updatePreview()">
 
@@ -285,7 +322,7 @@
     <script>
         function updatePreview() {
             document.getElementById("previewName").innerText = document.getElementById("name").value || "Your Name";
-            
+
             // Education Section
             document.getElementById("previewEducation").innerHTML = `
                 <p><strong>${document.getElementById("universityName").value}</strong> | ${document.getElementById("degree").value}</p>
@@ -300,7 +337,7 @@
                     <li>${document.getElementById("expDescription").value}</li>
                 </ul>
             `;
-            
+
             // Skills Section
             document.getElementById("previewSkills").innerHTML = `
                 <p><strong>Languages:</strong> ${document.getElementById("languages").value}</p>
@@ -342,4 +379,5 @@
         });
     </script>
 </body>
+
 </html>
