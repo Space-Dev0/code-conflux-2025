@@ -1,13 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Builder</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Builder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .preview {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Lakshya Sharma</h1><br>
-    <h2>Kanishk Mittal</h2><br>
-    <h3>Prathamesh Ramesh Torse</h3>
+  <div class="container">
+    <h1>Resume Builder</h1>
+    <form id="resumeForm">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name">
+      </div>
+      <div class="form-group">
+        <label for="skills">Skills:</label>
+        <textarea id="skills" name="skills" rows="4" placeholder="List your skills"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="experience">Experience:</label>
+        <textarea id="experience" name="experience" rows="4" placeholder="Describe your experience"></textarea>
+      </div>
+      <button type="submit">Generate Resume</button>
+    </form>
+
+    <div class="preview">
+      <h2>Live Preview</h2>
+      <p><strong>Name:</strong> <span id="previewName"></span></p>
+      <p><strong>Skills:</strong> <span id="previewSkills"></span></p>
+      <p><strong>Experience:</strong> <span id="previewExperience"></span></p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('resumeForm').addEventListener('input', function() {
+      document.getElementById('previewName').innerText = document.getElementById('name').value;
+      document.getElementById('previewSkills').innerText = document.getElementById('skills').value;
+      document.getElementById('previewExperience').innerText = document.getElementById('experience').value;
+    });
+
+    document.getElementById('resumeForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      alert('Resume generated! (This is where you would send data to the backend)');
+      // Here you would send the form data to the backend to generate the PDF
+    });
+  </script>
 </body>
 </html>
