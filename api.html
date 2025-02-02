@@ -88,22 +88,68 @@
 
     <script>
         function updatePreview() {
-            document.getElementById("previewName").innerText = document.getElementById("name").value || "Your Name";
-            document.getElementById("previewEmail").innerText = document.getElementById("email").value || "your.email@example.com";
-            document.getElementById("previewPhone").innerText = document.getElementById("phone").value || "+1234567890";
-            document.getElementById("previewAddress").innerText = document.getElementById("address").value || "Your Address";
+            const name = document.getElementById("name").value || "Your Name";
+            const email = document.getElementById("email").value || "your.email@example.com";
+            const phone = document.getElementById("phone").value || "+1234567890";
+            const address = document.getElementById("address").value || "Your Address";
+            
+            // Update the preview in the right panel
+            document.getElementById("previewName").innerText = name;
+            document.getElementById("previewEmail").innerText = email;
+            document.getElementById("previewPhone").innerText = phone;
+            document.getElementById("previewAddress").innerText = address;
+
+            // Send data to API
+            sendDataToAPI(name, email, phone, address);
         }
 
-        
+        function sendDataToAPI(name, email, phone, address) {
+            const data = { name, email, phone, address };
+
+            // Send data to the API
+            fetch('https://api.example.com/submitResume', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('API Response:', data);
+                alert('Resume submitted successfully!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while submitting the resume.');
+            });
+        }
 
         function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            doc.text(document.getElementById("previewName").innerText, 20, 20);
-            doc.text(document.getElementById("previewEmail").innerText, 20, 30);
-            doc.text(document.getElementById("previewPhone").innerText, 20, 40);
-            doc.text(document.getElementById("previewAddress").innerText, 20, 50);
-            doc.save("resume.pdf");
+            const name = document.getElementById("previewName").innerText;
+            const email = document.getElementById("previewEmail").innerText;
+            const phone = document.getElementById("previewPhone").innerText;
+            const address = document.getElementById("previewAddress").innerText;
+
+            // Send data to API to generate PDF
+            fetch('https://api.example.com/generatePDF', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, phone, address }),
+            })
+            .then(response => response.blob())  // Assuming the API sends PDF as a blob
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'resume.pdf';  // Name of the PDF file
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);  // Clean up the object URL
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while generating the PDF.');
+            });
         }
 
         // Resizable Panel Logic
@@ -125,3 +171,15 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
