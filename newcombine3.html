@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Resume Builder</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: #1B222C;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .nav {
+            display: flex;
+            gap: 20px;
+        }
+        .nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+        .nav a:hover {
+            color: #f4a261;
+        }
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 40px auto;
+            background: #fff;
+            box-shadow: 0px 0px 10px 0px #aaa;
+        }
+        .left-panel {
+            width: 50%;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+        .right-panel {
+            width: 50%;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .contact {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .contact a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #0073b1;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .download-btn {
+            padding: 10px 20px;
+            background-color: #1B222C;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .download-btn:hover {
+            background-color: #f4a261;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Resume Builder</div>
+        <nav class="nav">
+            <a href="#features">Features</a>
+            <a href="#templates">Templates</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <div class="left-panel">
+            <h2>Build Your Resume</h2>
+            <input type="text" id="name" placeholder="Full Name" oninput="updatePreview()">
+            <input type="text" id="address" placeholder="Address" oninput="updatePreview()">
+            <input type="tel" id="phone" placeholder="Phone Number" oninput="updatePreview()">
+            <input type="email" id="email" placeholder="Email" oninput="updatePreview()">
+            <input type="text" id="linkedin" placeholder="LinkedIn URL" oninput="updatePreview()">
+            <input type="text" id="github" placeholder="GitHub URL" oninput="updatePreview()">
+            
+            <h3>Education</h3>
+            <input type="text" id="university" placeholder="University Name" oninput="updatePreview()">
+            <input type="text" id="degree" placeholder="Degree" oninput="updatePreview()">
+            <input type="text" id="gradDate" placeholder="Graduation Date" oninput="updatePreview()">
+            
+            <h3>Relevant Coursework</h3>
+            <textarea id="coursework" placeholder="Enter relevant coursework" oninput="updatePreview()"></textarea>
+            
+            <h3>Experience</h3>
+            <input type="text" id="company" placeholder="Company Name" oninput="updatePreview()">
+            <input type="text" id="jobTitle" placeholder="Job Title" oninput="updatePreview()">
+            <input type="text" id="jobDates" placeholder="Employment Dates" oninput="updatePreview()">
+            <textarea id="jobDescription" placeholder="Job Description" oninput="updatePreview()"></textarea>
+            
+            <h3>Projects</h3>
+            <input type="text" id="projectTitle" placeholder="Project Title" oninput="updatePreview()">
+            <textarea id="projectDescription" placeholder="Project Description" oninput="updatePreview()"></textarea>
+            
+            <h3>Technical Skills</h3>
+            <textarea id="skills" placeholder="Enter your technical skills" oninput="updatePreview()"></textarea>
+            
+            <h3>Leadership / Extracurricular</h3>
+            <textarea id="leadership" placeholder="Enter leadership experiences" oninput="updatePreview()"></textarea>
+            
+            <button class="download-btn" onclick="downloadPDF()">Download Resume</button>
+        </div>
+        
+        <div class="right-panel" id="resumePreview">
+            <div class="contact">
+                <h1 id="previewName">Your Name</h1>
+                <p id="previewAddress">Your Address</p>
+                <p>📞 <span id="previewPhone">Your Phone</span> | ✉️ <a id="previewEmail" href="mailto:email@example.com">Your Email</a></p>
+                <p>
+                    <a id="previewLinkedIn" href="#">LinkedIn</a> |
+                    <a id="previewGitHub" href="#">GitHub</a>
+                </p>
+            </div>
+            
+            <div class="section">
+                <h2>Education</h2>
+                <p><strong id="previewUniversity">Your University</strong> (<span id="previewGradDate">Graduation Date</span>)</p>
+                <p id="previewDegree">Your Degree</p>
+            </div>
+            
+            <div class="section">
+                <h2>Relevant Coursework</h2>
+                <p id="previewCoursework">Your coursework will appear here</p>
+            </div>
+            
+            <div class="section">
+                <h2>Experience</h2>
+                <p><strong id="previewCompany">Company Name</strong> (<span id="previewJobDates">Employment Dates</span>)</p>
+                <p id="previewJobTitle">Job Title</p>
+                <p id="previewJobDescription">Job description will appear here</p>
+            </div>
+            
+            <div class="section">
+                <h2>Projects</h2>
+                <p><strong id="previewProjectTitle">Project Title</strong></p>
+                <p id="previewProjectDescription">Project description will appear here</p>
+            </div>
+            
+            <div class="section">
+                <h2>Technical Skills</h2>
+                <p id="previewSkills">Your skills will appear here</p>
+            </div>
+            
+            <div class="section">
+                <h2>Leadership / Extracurricular</h2>
+                <p id="previewLeadership">Your leadership experiences will appear here</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updatePreview() {
+            document.getElementById("previewName").innerText = document.getElementById("name").value || "Your Name";
+            document.getElementById("previewAddress").innerText = document.getElementById("address").value || "Your Address";
+            document.getElementById("previewPhone").innerText = document.getElementById("phone").value || "Your Phone";
+            document.getElementById("previewEmail").innerText = document.getElementById("email").value || "Your Email";
+            document.getElementById("previewEmail").href = "mailto:" + (document.getElementById("email").value || "email@example.com");
+            document.getElementById("previewLinkedIn").href = document.getElementById("linkedin").value || "#";
+            document.getElementById("previewGitHub").href = document.getElementById("github").value || "#";
+            
+            document.getElementById("previewUniversity").innerText = document.getElementById("university").value || "Your University";
+            document.getElementById("previewGradDate").innerText = document.getElementById("gradDate").value || "Graduation Date";
+            document.getElementById("previewDegree").innerText = document.getElementById("degree").value || "Your Degree";
+            
+            document.getElementById("previewCoursework").innerText = document.getElementById("coursework").value || "Your coursework will appear here";
+            
+            document.getElementById("previewCompany").innerText = document.getElementById("company").value || "Company Name";
+            document.getElementById("previewJobDates").innerText = document.getElementById("jobDates").value || "Employment Dates";
+            document.getElementById("previewJobTitle").innerText = document.getElementById("jobTitle").value || "Job Title";
+            document.getElementById("previewJobDescription").innerText = document.getElementById("jobDescription").value || "Job description will appear here";
+            
+            document.getElementById("previewProjectTitle").innerText = document.getElementById("projectTitle").value || "Project Title";
+            document.getElementById("previewProjectDescription").innerText = document.getElementById("projectDescription").value || "Project description will appear here";
+            
+            document.getElementById("previewSkills").innerText = document.getElementById("skills").value || "Your skills will appear here";
+            
+            document.getElementById("previewLeadership").innerText = document.getElementById("leadership").value || "Your leadership experiences will appear here";
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            html2canvas(document.getElementById("resumePreview")).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 210; // A4 width in mm
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+
+                doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                doc.save("resume.pdf");
+            });
+        }
+
+        // Automatically update preview when any input is changed
+        document.querySelectorAll("input, textarea").forEach(input => {
+            input.addEventListener("input", updatePreview);
+        });
+    </script>
+</body>
+</html>
