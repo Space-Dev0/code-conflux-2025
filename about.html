@@ -5,52 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us</title>
     <style>
+        /* Global Styles */
+        :root {
+            --primary-color: #1B222C;
+            --secondary-color: #3A6073;
+            --accent-color: #f4a261;
+            --background-color: #f4f4f9;
+            --text-color: #333;
+            --white: #ffffff;
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
         }
 
+        /* Header Styles */
         .header {
-            background: linear-gradient(135deg, #1B222C, #3A6073);
-            color: white;
-            padding: 60px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 80px 20px;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
         }
 
         .header h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin: 0;
             font-weight: bold;
+            animation: fadeIn 1s ease-in-out;
         }
 
         .header p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin: 10px 0 0;
             opacity: 0.9;
+            animation: fadeIn 1.5s ease-in-out;
         }
 
+        /* Team Section Styles */
         .team-section {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 30px;
-            padding: 40px 20px;
+            padding: 60px 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .team-member {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 25px;
             width: 300px;
             text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: var(--transition);
+            animation: slideUp 1s ease-in-out;
         }
 
         .team-member:hover {
@@ -59,9 +77,9 @@
         }
 
         .team-member h2 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin: 15px 0 10px;
-            color: #1B222C;
+            color: var(--primary-color);
         }
 
         .team-member p {
@@ -71,34 +89,69 @@
         }
 
         .team-member a {
-            color: #3A6073;
+            color: var(--secondary-color);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: var(--transition);
         }
 
         .team-member a:hover {
-            color: #1B222C;
+            color: var(--accent-color);
         }
 
+        /* Footer Styles */
         .footer {
-            background: #1B222C;
-            color: white;
+            background: var(--primary-color);
+            color: var(--white);
             text-align: center;
-            padding: 20px;
-            margin-top: 40px;
+            padding: 30px 20px;
+            margin-top: 60px;
+        }
+
+        .footer p {
+            margin: 5px 0;
         }
 
         .footer a {
-            color: #3A6073;
+            color: var(--accent-color);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: var(--transition);
         }
 
         .footer a:hover {
-            color: #f4a261;
+            color: var(--white);
         }
 
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
             .team-member {
                 width: 100%;
                 max-width: 300px;
@@ -109,7 +162,7 @@
 <body>
     <div class="header">
         <h1>About Us</h1>
-        <p>Meet the team behind this project.</p>
+        <p>Meet the talented team behind this project.</p>
     </div>
 
     <div class="team-section">
