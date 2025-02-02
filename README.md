@@ -27,7 +27,7 @@ Many online resume builders are cluttered, not mobile-friendly, and lack accessi
 ### Landing Page
 ![My Image](./resources/Frontpage.jpg)
 ### Main Page
-![My GIF](./resources/mainPage.gif)
+![My GIF](./resources/untitled(1).gif)
 ### About
 ![My Image](./resources/about.jpg)
 ## Accessibility Considerations
