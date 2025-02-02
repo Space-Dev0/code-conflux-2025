@@ -26,8 +26,10 @@ Many online resume builders are cluttered, not mobile-friendly, and lack accessi
 ## Screenshots
 ### Landing Page
 ![My Image](./resources/Frontpage.jpg)
-
-
+### Main Page
+![My GIF](./resources/mainPage.gif)
+### About
+![My Image](./resources/about.jpg)
 ## Accessibility Considerations
 - **Keyboard Navigation**: Users can navigate using the keyboard.
 - **Screen Reader Support**: Proper ARIA labels and semantic HTML elements are used.
